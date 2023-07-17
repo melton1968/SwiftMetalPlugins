@@ -12,8 +12,8 @@ let package = Package(
   products: [
     .library(name: "Example", targets: ["Example"]),
     .executable(name: "ExampleTool", targets: ["ExampleTool"]),
-    .executable(name: "MetalPluginTool", targets: ["MetalPluginTool"]),
-    .plugin(name: "MetalPlugin", targets: ["MetalPlugin"])
+    .executable(name: "CompilerPluginTool", targets: ["CompilerPluginTool"]),
+    .plugin(name: "CompilerPlugin", targets: ["CompilerPlugin"])
   ],
 
   dependencies: [
@@ -21,7 +21,7 @@ let package = Package(
   ],
   
   targets: [
-    .target(name: "Example", plugins: ["MetalPlugin"]),
+    .target(name: "Example", plugins: ["CompilerPlugin"]),
     .testTarget(name: "ExampleTest", dependencies: ["Example"]),
     .executableTarget(
       name: "ExampleTool",
@@ -29,15 +29,15 @@ let package = Package(
       linkerSettings: [ .linkedFramework("CoreGraphics") ]
     ),
     .executableTarget(
-      name: "MetalPluginTool",
+      name: "CompilerPluginTool",
       dependencies: [
         .product(name: "ArgumentParser", package: "swift-argument-parser")
       ]
     ),
     .plugin(
-      name: "MetalPlugin",
+      name: "CompilerPlugin",
       capability: .buildTool(),
-      dependencies: ["MetalPluginTool"]
+      dependencies: ["CompilerPluginTool"]
     )
   ]
 )

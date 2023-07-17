@@ -4,7 +4,7 @@ import Foundation
 import os
 
 @main
-struct MetalPluginTool {
+struct CompilerPluginTool {
     static func main() throws {
         let p = Process()
         p.executableURL = URL(filePath: "/usr/bin/xcrun")

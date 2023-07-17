@@ -3,11 +3,11 @@
 import PackagePlugin
 
 @main
-struct MetalPlugin: BuildToolPlugin {
+struct CompilerPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) throws -> [Command] {
         guard let target = target as? SourceModuleTarget else { return [] }
         
-        let xcrunTool = try context.tool(named: "MetalPluginTool").path
+        let xcrunTool = try context.tool(named: "CompilerPluginTool").path
         
         let sourceFiles = target.sourceFiles.compactMap {
             return $0.path.extension == "metal" ? $0.path : nil
@@ -19,7 +19,8 @@ struct MetalPlugin: BuildToolPlugin {
             return Command.buildCommand(
               displayName: "Compiling \(outputName) from \($0.lastComponent)",
               executable: xcrunTool,
-              arguments: ["-sdk", "macosx", "metal", "-c", "-frecord-sources", "\($0)",
+              arguments: ["-sdk", "macosx", "metal", "-I/include/metal",
+                          "-c", "-frecord-sources", "\($0)",
                           "-o", "\(outputPath)"],
               inputFiles: [ $0 ],
               outputFiles: [ outputPath ]
